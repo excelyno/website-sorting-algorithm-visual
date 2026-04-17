@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SortViz — Sorting Algorithm Visualizer
 
-## Getting Started
+Visualisasi interaktif 5 algoritma sorting dengan animasi blok yang sinkron dengan highlight kode C++.
 
-First, run the development server:
+**Algoritma:** Bubble Sort · Insertion Sort · Selection Sort · Merge Sort · Quick Sort
+
+---
+
+## Cara Setup
+
+### 1. Buat project Next.js baru
+
+```bash
+npx create-next-app@latest sorting-visualizer \
+  --typescript --tailwind --eslint --app --src-dir --no-import-alias
+
+cd sorting-visualizer
+```
+
+### 2. Install dependencies tambahan
+
+```bash
+npm install framer-motion zustand
+```
+
+### 3. Copy semua file dari scaffold ini
+
+Salin semua file berikut ke project kamu (sesuaikan path):
+
+```
+src/
+├── app/
+│   ├── layout.tsx          ← ganti yang ada
+│   ├── page.tsx            ← ganti yang ada
+│   └── globals.css         ← ganti yang ada
+├── components/
+│   ├── VisualizerApp.tsx
+│   ├── AlgoSelector.tsx
+│   ├── ArrayInput.tsx
+│   ├── ArrayVisualizer.tsx
+│   ├── ArrayBar.tsx
+│   ├── CodePanel.tsx
+│   ├── StepInfo.tsx
+│   ├── Controls.tsx
+│   └── ComplexityBadge.tsx
+├── lib/
+│   ├── algorithms/
+│   │   ├── types.ts
+│   │   ├── bubbleSort.ts
+│   │   ├── insertionSort.ts
+│   │   ├── selectionSort.ts
+│   │   ├── mergeSort.ts
+│   │   └── quickSort.ts
+│   └── codeSnippets.ts
+└── store/
+    └── visualizerStore.ts
+
+tailwind.config.ts   ← ganti yang ada
+```
+
+### 4. Jalankan
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Fitur
 
-## Learn More
+| Fitur | Detail |
+|-------|--------|
+| 5 algoritma | Bubble, Insertion, Selection, Merge, Quick Sort |
+| Animasi swap | Framer Motion spring layout — blok "terbang" |
+| Kode C++ sinkron | Baris yang aktif di-highlight otomatis saat langkah |
+| Auto-scroll kode | Panel kode scroll ke baris aktif otomatis |
+| Play/Pause/Step | Kontrol penuh atas playback |
+| Speed control | 0.5× 1× 2× 4× |
+| Custom input | Input array sendiri, atau pakai preset/random |
+| Warna state | comparing (kuning), swapping (merah), sorted (hijau), pivot (ungu), dll |
+| Responsive | Desktop split-view, mobile collapsible code panel |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Struktur State (Zustand)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+algo          → algoritma aktif
+inputArray    → array yang diinput user
+steps[]       → semua langkah yang di-generate
+currentStepIndex → langkah saat ini
+isPlaying     → sedang auto-play atau tidak
+speed         → ms per langkah (200/400/800/1600)
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Menambah Algoritma Baru
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Buat file `src/lib/algorithms/namaAlgo.ts`
+2. Export fungsi `generateNameAlgoSteps(input: number[]): Step[]`
+3. Tambahkan ke `GENERATORS` di `store/visualizerStore.ts`
+4. Tambahkan code snippet ke `src/lib/codeSnippets.ts`
+5. Tambahkan ke `ALGOS` array di `AlgoSelector.tsx`
+
+---
+
+## Kustomisasi Warna
+
+Edit `COLOR_MAP` di `src/components/ArrayBar.tsx` untuk mengubah warna tiap state bar.
+
+---
+
+## Tech Stack
+
+- Next.js 14 (App Router)
+- TypeScript
+- Zustand (state management)
+- Framer Motion (animasi layout swap)
+- Tailwind CSS (styling)
+- Google Fonts: Outfit + Geist Mono
