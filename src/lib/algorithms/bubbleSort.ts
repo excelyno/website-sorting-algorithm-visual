@@ -1,4 +1,4 @@
-import { ArrayBar, Step } from './types';
+import { ArrayBar,BarState, Step } from './types';
 
 function snapshot(bars: ArrayBar[]): ArrayBar[] {
   return bars.map(b => ({ ...b }));
@@ -13,7 +13,7 @@ function makeStep(
   const copy = snapshot(bars);
   if (overrides) {
     for (const [idx, state] of Object.entries(overrides) as [string, BarState][]) {
-  copy[Number(idx)].state = state;
+    copy[Number(idx)].state = state;
     }
   }
   return { bars: copy, highlightLines, description };
