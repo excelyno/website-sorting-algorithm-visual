@@ -12,8 +12,8 @@ function makeStep(
 ): Step {
   const copy = snapshot(bars);
   if (overrides) {
-    for (const [idx, state] of Object.entries(overrides)) {
-      copy[Number(idx)].state = state;
+    for (const [idx, state] of Object.entries(overrides) as [string, BarState][]) {
+  copy[Number(idx)].state = state;
     }
   }
   return { bars: copy, highlightLines, description };
